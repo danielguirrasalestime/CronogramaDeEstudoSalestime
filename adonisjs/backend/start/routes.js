@@ -1,5 +1,7 @@
 "use strict";
 
+const AuthController = require("../app/Controllers/Http/AuthController");
+
 /*
 |--------------------------------------------------------------------------
 | Routes
@@ -19,3 +21,11 @@ const Route = use("Route");
 Route.post("/register", "AuthController.register");
 Route.post("/authenticate", "AuthController.authenticate");
 Route.get("/app", "AppController.index").middleware(["auth"]);
+Route.get("/users", "AuthController.userList").middleware(["auth"]);
+Route.post("/fake", "AuthController.faker");
+Route.get("user/:id", async ({ params }) => {
+  return new AuthController().userId(params);
+});
+Route.put("user/update/:id", async ({ params }) => {
+  return new AuthController().userUpdate(params);
+});
