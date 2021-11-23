@@ -5,6 +5,10 @@
   "description": "Adonisjs boilerplate for API server with pre-configured JWT",
   "main": "index.js",
   "scripts": {
+    "routes-list": "adonis route:list",
+    "migratios-status": "adonis migration:status",
+    "migratios-reset": "adonis migration:reset",
+    "migratios-run": "adonis migration:run",
     "fakeuser": "adonis seed",
     "dev": "adonis serve --dev",
     "start": "node server.js",

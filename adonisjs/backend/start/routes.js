@@ -38,3 +38,11 @@ Route.put("user/update/:id", async ({ params, request }) => {
 Route.delete("user/:id", async ({ params }) => {
   return new UserController().userDelete(params.id);
 });
+
+Route.group(() => {
+  Route.resource("tweet", "TweetController").apiOnly().except("update");
+}).middleware(["auth"]);
+
+// Route.group(()=>{
+//   Route.resource('user','UserController').apiOnly()
+// }).middleware()
