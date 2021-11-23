@@ -1,7 +1,5 @@
 "use strict";
 
-const AuthController = require("../app/Controllers/Http/AuthController");
-
 /*
 |--------------------------------------------------------------------------
 | Routes
@@ -18,14 +16,23 @@ const AuthController = require("../app/Controllers/Http/AuthController");
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
 const Route = use("Route");
 
-Route.post("/register", "AuthController.register");
-Route.post("/authenticate", "AuthController.authenticate");
-Route.get("/app", "AppController.index").middleware(["auth"]);
-Route.get("/users", "AuthController.userList").middleware(["auth"]);
-Route.post("/fake", "AuthController.faker");
+const UserController = require("../app/Controllers/Http/UserController");
+
+Route.post("/register", "UserController.register");
+Route.post("/authenticate", "UserController.authenticate");
+Route.post("/fake", "UserController.faker");
+
+Route.get("/app", "UserController.index").middleware(["auth"]);
+Route.get("/users", "UserController.userList").middleware(["auth"]);
+
 Route.get("user/:id", async ({ params }) => {
-  return new AuthController().userId(params);
+  return new UserController().userId(params);
 });
-Route.put("user/update/:id", async ({ params }) => {
-  return new AuthController().userUpdate(params);
+
+Route.get("user/username/:id", async ({ params }) => {
+  return new UserController().userUsername(params.id);
+});
+
+Route.put("user/update/:id", async ({ params, request }) => {
+  return new UserController().userUpdate(params.id, request.body);
 });
