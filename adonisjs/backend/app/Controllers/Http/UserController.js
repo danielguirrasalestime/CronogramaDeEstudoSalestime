@@ -54,6 +54,17 @@ class UserController {
       return `ID ${ID} é inválido`;
     }
   }
+
+  async userDelete(params) {
+    const ID = parseInt(params);
+    const user = await User.findBy("id", ID);
+    if (user) {
+      await user.delete();
+      return `${user.username} foi deletado`;
+    } else {
+      return `ID ${ID} é inválido`;
+    }
+  }
 }
 
 module.exports = UserController;

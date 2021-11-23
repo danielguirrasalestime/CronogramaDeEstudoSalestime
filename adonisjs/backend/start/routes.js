@@ -24,15 +24,17 @@ Route.post("/fake", "UserController.faker");
 
 Route.get("/app", "UserController.index").middleware(["auth"]);
 Route.get("/users", "UserController.userList").middleware(["auth"]);
-
 Route.get("user/:id", async ({ params }) => {
   return new UserController().userId(params);
 });
-
 Route.get("user/username/:id", async ({ params }) => {
   return new UserController().userUsername(params.id);
 });
 
 Route.put("user/update/:id", async ({ params, request }) => {
   return new UserController().userUpdate(params.id, request.body);
+});
+
+Route.delete("user/:id", async ({ params }) => {
+  return new UserController().userDelete(params.id);
 });
