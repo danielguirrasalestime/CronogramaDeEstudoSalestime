@@ -17,6 +17,7 @@
 const Route = use("Route");
 
 const UserController = require("../app/Controllers/Http/UserController");
+const EmpresaController = require("../app/Controllers/Http/EmpresaController");
 
 Route.post("/register", "UserController.register");
 Route.post("/authenticate", "UserController.authenticate");
@@ -41,6 +42,15 @@ Route.delete("user/:id", async ({ params }) => {
 
 Route.group(() => {
   Route.resource("tweet", "TweetController").apiOnly().except("update");
+}).middleware(["auth"]);
+
+Route.get("empresa/name/:id", async ({ params }) => {
+  console.log(params.id);
+  return new EmpresaController().showName(params.id);
+}).middleware(["auth"]);
+
+Route.group(() => {
+  Route.resource("empresa", "EmpresaController").apiOnly().except("update");
 }).middleware(["auth"]);
 
 // Route.group(()=>{

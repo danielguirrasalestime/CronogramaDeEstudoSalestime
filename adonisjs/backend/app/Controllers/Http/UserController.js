@@ -1,10 +1,10 @@
 "use strict";
 
 const User = use("App/Models/User");
-
+const Empresa = use("App/Models/Empresa");
 class UserController {
   async register({ request }) {
-    const data = request.only(["username", "email", "password"]);
+    const data = request.only(["username", "empresa_id", "email", "password"]);
     const user = await User.create(data);
     return user;
   }
@@ -18,15 +18,31 @@ class UserController {
 
   async userList({ request, auth }) {
     const user = await User.all();
+    let resul = [];
+    for (const User of user["rows"]) {
+      let empresaId = await User.empresa_id;
+      let empresa = await Empresa.findOrFail(empresaId);
+      let result = {
+        user: User,
+        empresa: empresa,
+      };
+      resul.push(result);
+    }
 
-    return user;
+    return resul;
   }
 
   async userId(params) {
     const ID = await params.id;
     const user = await User.findBy("id", ID);
+    const empresaId = user.empresa_id;
+    const empresa = await Empresa.findBy("id", empresaId);
+    let resul = {
+      user: user,
+      empresa: empresa,
+    };
     if (user) {
-      return user;
+      return resul;
     } else {
       return `ID ${ID} é inválido`;
     }
@@ -35,8 +51,14 @@ class UserController {
   async userUsername(params) {
     const username = await params;
     const user = await User.findBy("username", username);
+    const empresaId = user.empresa_id;
+    const empresa = await Empresa.findBy("id", empresaId);
+    let resul = {
+      user: user,
+      empresa: empresa,
+    };
     if (user) {
-      return user;
+      return resul;
     } else {
       return `username ${username} é inválido`;
     }

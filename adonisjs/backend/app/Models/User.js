@@ -10,6 +10,9 @@ class User extends Model {
   static get hidden() {
     return ["password"];
   }
+  user() {
+    return this.belongsTo("App/Models/Empresa");
+  }
 
   static boot() {
     super.boot();
