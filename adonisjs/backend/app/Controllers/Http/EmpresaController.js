@@ -28,10 +28,10 @@ class EmpresaController {
    * Display a single empresa.
    * GET empresas/:id
    *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
+   *
+   *
+   *
+   * id
    */
   async show({ params }) {
     let empresa = await Empresa.findOrFail(params.id);
